@@ -1,0 +1,57 @@
+/* Contenedor principal */
+.home-container {
+  padding: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* Sección usuario logueado */
+.user-box {
+  background-color: #f0f0f0;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 30px;
+}
+
+/* Formulario de búsqueda */
+.search-box {
+  border: 2px solid #ddd;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.search-box button {
+  padding: 10px 20px;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.search-box button:disabled {
+  cursor: not-allowed;
+}
+
+.search-error {
+  color: red;
+  margin-top: 15px;
+}
+
+/* Resultados de cliente */
+.result-box {
+  padding: 20px;
+  border-radius: 8px;
+}
+
+/* Mostrar los resultados en fila */
+.result-box ul {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.result-box ul li {
+  margin: 0; /* eliminar margen por defecto de li */
+}

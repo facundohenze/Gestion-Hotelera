@@ -1,0 +1,164 @@
+import { useEffect, useState } from "react";
+import "../estilos/home.css";
+
+export function Home() {
+    const [userData, setUserData] = useState(null)
+    const [idCliente, setIdCliente] = useState('')
+    const [clienteData, setClienteData] = useState(null)
+    const [loading, setLoading] = useState(true)
+    const [searching, setSearching] = useState(false)
+    const [error, setError] = useState(null)
+    const [searchError, setSearchError] = useState(null)
+    const [categoria, setCategoria] = useState('')
+    const [hoteles, setHoteles] = useState([])
+
+
+    // Cargar datos del usuario al montar el componente
+    useEffect(() => {
+        fetch('/login-data')
+            .then(res => {
+                if (!res.ok) {
+                    throw new Error('No autenticado');
+                }
+                return res.json();
+            })
+            .then(response => {
+                if (response.ok && response.datos) {
+                    setUserData(response.datos);
+                }
+                setLoading(false);
+            })
+            .catch(err => {
+                console.error('Error:', err);
+                setError('Debe iniciar sesión para acceder');
+                setLoading(false);
+            })
+    }, [])
+
+    // Función para buscar cliente
+    const buscarCliente = async (e) => {
+        e.preventDefault()
+
+        if (!idCliente || idCliente.trim() === '') {
+            setSearchError('Por favor ingrese un ID de cliente')
+            return
+        }
+
+        setSearching(true) // Indica que la búsqueda está en curso
+        setSearchError(null) // Limpia errores previos
+        setClienteData(null) // Limpia datos previos
+
+        try {
+            const response = await fetch(`/api/cliente/${idCliente}`)
+            const data = await response.json()
+
+            if (response.ok && data.success) {
+                setClienteData(data.data)
+            } else {
+                setSearchError(data.message || 'Cliente no encontrado')
+            }
+        } catch (err) {
+            console.error('Error al buscar cliente:', err)
+            setSearchError('Error de conexión al buscar el cliente')
+        } finally {
+            setSearching(false)
+        }
+    }
+
+    // Función para limpiar búsqueda
+    const limpiarBusqueda = () => {
+        setIdCliente('')
+        setClienteData(null)
+        setSearchError(null)
+    }
+
+    if (loading) {
+        return (
+            <div className="home-container">
+                <h1>Home Page</h1>
+                <p>Cargando...</p>
+            </div>
+        );
+    }
+
+    if (error) {
+        return (
+            <div className="home-container">
+                <h1>Home Page</h1>
+                <p className="search-error">{error}</p>
+            </div>
+        );
+    }
+
+    return (
+        <div className="home-container">
+            <h1>Gestión Hotelera</h1>
+
+            {/* Datos del usuario logueado */}
+            {userData && (
+                <div className="user-box">
+                    <h2>Bienvenido</h2>
+                    <p><strong>Usuario:</strong> {userData.usuario}</p>
+                    <p><strong>Rol:</strong> {userData.rol}</p>
+                </div>
+            )}
+
+            {/* Formulario de búsqueda de cliente */}
+            <div className="search-box">
+                <h2>Buscar Cliente por ID</h2>
+                <form onSubmit={buscarCliente}>
+                    <div>
+                        <label>ID del Cliente:</label>
+                        <input
+                            type="number"
+                            value={idCliente}
+                            onChange={(e) => setIdCliente(e.target.value)}
+                            placeholder="Ingrese el ID del cliente"
+                            disabled={searching}
+                        />
+                    </div>
+                    <div>
+                        <button type="submit" disabled={searching}>
+                            {searching ? 'Buscando...' : 'Buscar'}
+                        </button>
+                        <button type="button" onClick={limpiarBusqueda} disabled={searching}>
+                            Limpiar
+                        </button>
+                    </div>
+                </form>
+
+                {searchError && <p className="search-error">{searchError}</p>}
+            </div>
+
+            {/* Resultados de la búsqueda */}
+            {clienteData && (
+                <div className="result-box">
+                    <h2>Datos del Cliente</h2>
+                    <pre>{JSON.stringify(clienteData, null, 2)}</pre>
+                </div>
+            )}
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    )
+}
+
+
+

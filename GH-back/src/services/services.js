@@ -37,3 +37,29 @@ export async function getHotelPorCategoria(categoria) {
         throw error;
     }
 }
+
+//obtener todos los hoteles
+export async function getTodosHoteles() {
+    try {
+        console.log("🔍 Obteniendo todos los hoteles");
+        const [rows] = await pool.query("SELECT * FROM hotel");
+        console.log("📊 Hoteles encontrados:", rows);
+        return rows; // Devolvemos el array de filas del SELECT
+    } catch (error) {
+        console.error("❌ Error en getTodosHoteles:", error);
+        throw error;
+    }
+}
+
+// obtener habitaciones por idHotel
+export async function getHabitacionesPorHotel(idHotel) {
+    try {
+        console.log(`🔍 Buscando habitaciones para el hotel con ID: ${idHotel}`);
+        const [rows] = await pool.query("CALL buscarHabitacionesHotel(?)", [idHotel]);
+        console.log("📊 Resultado del procedimiento:", rows);
+        return rows[0]; // Devolvemos el primer conjunto de resultados
+    } catch (error) {
+        console.error("❌ Error en getHabitacionesPorHotel:", error);
+        throw error;
+    }
+}

@@ -1,11 +1,12 @@
 // Controladores: lógica para manejar requests y responses
 
-import { getCliente, getHotelPorCategoria } from "../services/services.js";
+import { getCliente, getHotelPorCategoria, getTodosHoteles, getHabitacionesPorHotel
+ } from "../services/services.js";
 
-// Controlador: maneja la request de obtener un cliente por su id
+// obtener un cliente por su id
 export async function fetchCliente(req, res) {
     try {
-        const idCliente = parseInt(req.params.idCliente, 10);
+        const idCliente = parseInt(req.params.idCliente, 10); // Obtener idCliente de los parámetros
         if (isNaN(idCliente) || idCliente <= 0) {
             return res.status(400).json({
                 success: false,
@@ -72,4 +73,50 @@ export async function fetchHotelPorCategoria(req, res) {
             error: process.env.NODE_ENV === 'development' ? error.message : undefined
         });
     }
+}
+
+// obtener todos los hoteles
+export async function fetchTodosHoteles(req, res) {
+    try {
+        const hoteles = await getTodosHoteles(); // Llamar al service
+        return res.json({
+            success: true,
+            data: Array.isArray(hoteles) ? hoteles : []
+        });
+
+    }
+    catch (error) {
+        console.error("❌ Error en fetchTodosHoteles:", error);
+        res.status(500).json({
+            success: false,
+            message: "Error interno del servidor",
+            error: process.env.NODE_ENV === 'development' ? error.message : undefined
+        });
+    }   
+}
+
+// obtener todas las habitaciones de un hotel (por idHotel)
+export async function fetchHabitacionesPorHotel(req, res) {
+    try {
+        const idHotel = parseInt(req.params.idHotel, 10); // Obtener idHotel de los parámetros
+        if (isNaN(idHotel) || idHotel <= 0) { // Validar idHotel
+            return res.status(400).json({
+                success: false,
+                message: "ID de hotel inválido"
+            });
+        }
+        const habitaciones = await getHabitacionesPorHotel(idHotel); // Llamar al service
+        return res.json({
+            success: true,
+            data: Array.isArray(habitaciones) ? habitaciones : []
+        });
+    } catch (error) {
+        console.error("❌ Error en fetchHabitacionesPorHotel:", error);
+        res.status(500).json({
+            success: false,
+            message: "Error interno del servidor",
+            error: process.env.NODE_ENV === 'development' ? error.message : undefined
+        });
+    }
+
 }

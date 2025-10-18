@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom"
 import "../estilos/home.css";
 import { CardHotel } from "../components/CardHotel";
 
@@ -10,6 +11,8 @@ export function Home() {
     const [searchError, setSearchError] = useState(null);
     const [categoria, setCategoria] = useState('');
     const [hoteles, setHoteles] = useState([]);
+    const [botonActivo, setBotonActivo] = useState(null);
+
 
     useEffect(() => {
         fetch('/login-data')
@@ -26,6 +29,12 @@ export function Home() {
                 setError('Debe iniciar sesión para acceder');
                 setLoading(false);
             });
+    }, []);
+
+
+    // 🔹 Al cargar el Home, mostrar todos los hoteles por defecto
+    useEffect(() => {
+        buscarTodosLosHoteles();
     }, []);
 
     // Buscar hoteles por categoría (acepta evento o una categoría como string)
@@ -45,10 +54,12 @@ export function Home() {
 
         // sincronizar estado para mostrar cuál categoría está buscando
         setCategoria(categoriaSeleccionada);
+        setBotonActivo(categoriaSeleccionada); // <--- marcar botón activo
         setSearching(true);
         setSearchError(null);
         setHoteles([]);
 
+        // realizar la búsqueda
         try {
             const response = await fetch(`/api/hoteles?categoria=${encodeURIComponent(categoriaSeleccionada)}`);
             const contentType = response.headers.get('content-type') || '';
@@ -78,10 +89,31 @@ export function Home() {
         }
     };
 
-    const limpiarBusqueda = () => {
-        setCategoria('');
-        setHoteles([]);
+    const buscarTodosLosHoteles = async () => {
+        setBotonActivo('todos'); // <--- marcar "Todos" como activo
+        setSearching(true);
         setSearchError(null);
+        setHoteles([]);
+        try {
+            const response = await fetch(`/api/todos-hoteles`);
+
+            if (!response.ok) {
+                const text = await response.text();
+                throw new Error(`HTTP ${response.status}: ${text}`);
+            }
+            const data = await response.json();
+
+            if (data && data.success) {
+                setHoteles(data.data || []);
+            } else {
+                setSearchError(data?.message || 'No se encontraron hoteles');
+            }
+        } catch (err) {
+            console.error('Error al buscar todos los hoteles:', err);
+            setSearchError(String(err.message || 'Error de conexión al buscar hoteles'));
+        } finally {
+            setSearching(false);
+        }
     };
 
     if (loading) {
@@ -120,24 +152,26 @@ export function Home() {
                 <div>
                     <label>Categoria:</label>
                     <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginTop: 8 }}>
+                        <button
+                            type="button"
+                            onClick={buscarTodosLosHoteles}
+                            disabled={searching}
+                            className={botonActivo === 'todos' ? 'active' : ''}
+                        >
+                            {searching ? 'Buscando...' : 'Todos'}
+                        </button>
                         {[1, 2, 3, 4, 5].map(n => (
                             <button
                                 key={n}
                                 type="button"
                                 onClick={() => buscarHotelPorCategoria(String(n))}
                                 disabled={searching}
+                                className={botonActivo === String(n) ? 'active' : ''}
                             >
                                 {searching && categoria === String(n) ? 'Buscando...' : `Categoria ${n}`}
                             </button>
                         ))}
-
                     </div>
-                </div>
-
-                <div style={{ marginTop: 12 }}>
-                    <button type="button" onClick={limpiarBusqueda} disabled={searching}>
-                        Limpiar
-                    </button>
                 </div>
 
                 {searchError && <p className="search-error">{searchError}</p>}

@@ -3,6 +3,8 @@
 import { Router } from "express";
 import { fetchCliente } from "../controllers/controllers.js";
 import { fetchHotelPorCategoria } from "../controllers/controllers.js";
+import { fetchTodosHoteles } from "../controllers/controllers.js";
+import { fetchHabitacionesPorHotel } from "../controllers/controllers.js";
 
 
 const router = Router();
@@ -18,6 +20,13 @@ router.get("/clientes/test", (req, res) => {
 // Ruta para obtener hotel por categoría
 router.get("/categoria/:categoria", fetchHotelPorCategoria);
 router.get("/hoteles", fetchHotelPorCategoria);
+
+//ruta para obtener todos los hoteles
+router.get("/todos-hoteles", fetchTodosHoteles);
+
+// ruta para obtener habitaciones por idHotel
+router.get("/habitaciones/hotel/:idHotel", fetchHabitacionesPorHotel);
+
 
 export default router;
 

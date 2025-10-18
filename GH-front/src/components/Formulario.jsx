@@ -10,7 +10,7 @@ export function Formulario({ setUser }) {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-        const response = await fetch('/login', {
+        const response = await fetch('http://localhost:3001/login', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ usuario, contrasena })

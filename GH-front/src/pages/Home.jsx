@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom"
 import "../estilos/home.css";
 import { CardHotel } from "../components/CardHotel";
 
@@ -184,6 +183,7 @@ export function Home() {
                         {hoteles.map((h, i) => (
                             <li key={h.id || i}>
                                 <CardHotel
+                                    idHotel={h.idHotel || h.idHotel || 0}
                                     imagenUrl={h.imagenUrl || ''}
                                     nombre={h.nombre || 'Sin nombre'}
                                     categoria={h.categoria || 'Sin categoría'}

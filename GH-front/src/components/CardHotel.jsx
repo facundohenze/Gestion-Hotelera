@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { Link } from "react-router-dom"
-import "../estilos/cardHotel.css";
+import "../estilos/card.css";
 
 export const CardHotel = ({ 
-    id,
+    idHotel,
     imagenUrl,
     nombre,
     categoria,
@@ -11,15 +11,15 @@ export const CardHotel = ({
 }) => {
 
     return (
-        <div className="card-hotel">
+        <div className="card">
             {imagenUrl && <img src={imagenUrl} alt={nombre} className="hotel-image" />}
             <h3>{nombre}</h3>
             <p>Categoría: {categoria}</p>
             <p>Dirección: {direccion}</p>
 
-            <Link to="/Habitaciones"
+            <Link to="/Habitaciones" //info del hotel seleccionado
                 state={{
-                    id,
+                    idHotel,
                     imagenUrl,
                     nombre,
                     categoria,

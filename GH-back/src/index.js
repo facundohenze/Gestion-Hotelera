@@ -1,5 +1,4 @@
 // Punto de entrada principal del servidor Express
-
 import express from 'express';
 import cors from 'cors';
 import path from 'path';
@@ -7,6 +6,8 @@ import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
 import clienteRoutes from './routes/routes.js';
 import hotelCategoriaRoutes from './routes/routes.js';
+import todosLosHotel from './routes/routes.js';
+import habitacionPorHotel from './routes/routes.js';
 import pool, { testConnection } from './config/db.js';
 
 
@@ -69,11 +70,10 @@ function verificarAutenticacion(req, res, next) {
 
 
 // ============ RUTAS DE CLIENTES (PROTEGIDAS) ============
-// Aplicar el middleware de autenticación a todas las rutas de clientes
 app.use('/api', verificarAutenticacion, clienteRoutes);
-// ============ RUTAS DE HOTELES POR CATEGORÍA (PROTEGIDAS) ============
 app.use('/api', verificarAutenticacion, hotelCategoriaRoutes);
-
+app.use('/api', verificarAutenticacion, todosLosHotel);
+app.use('/api', verificarAutenticacion, habitacionPorHotel);
 
 // Ruta de prueba para el servidor
 app.get('/api/test', (req, res) => {

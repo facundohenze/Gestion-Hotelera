@@ -6,6 +6,7 @@ import { Home } from './pages/Home';
 import { Habitaciones } from './pages/Habitaciones.jsx';
 
 
+
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <BrowserRouter>

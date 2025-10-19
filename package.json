@@ -10,6 +10,7 @@
     "install-all": "cd login-back && npm install && cd ../login-front && npm install",
     "deploy": "./deploy.sh"
   },
-  "dependencies": {},
-  "devDependencies": {}
+  "dependencies": {
+    "bootstrap": "^5.3.8"
+  }
 }

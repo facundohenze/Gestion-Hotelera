@@ -30,17 +30,42 @@ let currentUser = null;
 testConnection();
 
 
-// Usuario y contraseña "hardcodeados"
-// Endpoint de login
-app.post('/login', (req, res) => {
-  const { usuario, contrasena } = req.body;
-  if (usuario === 'admin' && contrasena === '1234') {
-    currentUser = { usuario: 'admin', rol: 'usuario' };
-    res.json({ ok: true, datos: currentUser });
-  } else {
-    res.status(401).json({ ok: false, mensaje: 'Credenciales incorrectas' });
+// Endpoint de login (consulta desde la BD)
+app.post('/login', async (req, res) => {
+  try {
+    const { usuario, contrasena } = req.body;
+
+    if (!usuario || !contrasena) {
+      return res.status(400).json({ ok: false, mensaje: 'Debe ingresar usuario y contraseña' });
+    }
+
+    // Consultar en la base de datos
+    const [rows] = await pool.query(
+      'SELECT * FROM Usuario WHERE usuario = ? AND contrasena = ?',
+      [usuario, contrasena]
+    );
+
+    if (rows.length > 0) {
+      // Usuario encontrado
+      const user = rows[0];
+      currentUser = {
+        id: user.idUsuario,
+        usuario: user.usuario,
+        rol: user.rol
+      };
+
+      res.json({ ok: true, datos: currentUser });
+    } else {
+      // Usuario no encontrado o credenciales incorrectas
+      res.status(401).json({ ok: false, mensaje: 'Credenciales incorrectas' });
+    }
+
+  } catch (error) {
+    console.error('❌ Error en /login:', error);
+    res.status(500).json({ ok: false, mensaje: 'Error en el servidor' });
   }
 });
+
 
 // Endpoint para obtener datos del usuario
 app.get('/login-data', (req, res) => {

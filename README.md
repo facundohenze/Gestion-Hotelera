@@ -13,14 +13,15 @@ cd GH-front
 npm install
 ```
 
-# iniar Backend
+# iniciar Backend
 ```bash
 cd GH-back
 npm run dev
 ```
 
-# iniar Frontend
+# iniciar Frontend
 ```bash
+# hola
 cd GH-front
 npm run dev
 ```

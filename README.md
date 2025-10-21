@@ -1,27 +1,24 @@
-# Facundo Henze
-
-# Backend
+## Backend
 ```bash
 cd GH-back
 npm install
 npm install express mysql2 cors dotenv
 ```
 
-# Frontend
+## Frontend
 ```bash
 cd GH-front
 npm install
 ```
 
-# iniciar Backend
+## iniciar Backend
 ```bash
 cd GH-back
 npm run dev
 ```
 
-# iniciar Frontend
+## iniciar Frontend
 ```bash
-# hola
 cd GH-front
 npm run dev
 ```

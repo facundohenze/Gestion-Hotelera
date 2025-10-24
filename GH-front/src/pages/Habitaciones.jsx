@@ -20,9 +20,15 @@ export function Habitaciones() {
     const buscarHabitaciones = async (idHotel) => {
         setLoading(true);
         setError(null);
+        const token = localStorage.getItem("token"); // 👈 recuperamos el token
 
         try {
-            const response = await fetch(`http://localhost:3001/api/habitaciones/hotel/${idHotel}`);
+            const response = await fetch(`http://localhost:3001/api/habitaciones/hotel/${idHotel}`, {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}` // 👈 lo enviamos al backend
+                },
+            });
             const data = await response.json();
 
             if (response.ok && data.success) {

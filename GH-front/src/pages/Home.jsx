@@ -11,10 +11,14 @@ export function Home() {
     const [categoria, setCategoria] = useState('');
     const [hoteles, setHoteles] = useState([]);
     const [botonActivo, setBotonActivo] = useState(null);
-
+    const token = localStorage.getItem('token');
 
     useEffect(() => {
-        fetch('/login-data')
+        fetch('/login-data', {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            },
+        })
             .then(res => {
                 if (!res.ok) throw new Error('No autenticado');
                 return res.json();
@@ -60,7 +64,13 @@ export function Home() {
 
         // realizar la búsqueda
         try {
-            const response = await fetch(`/api/hoteles?categoria=${encodeURIComponent(categoriaSeleccionada)}`);
+            const response = await fetch(`/api/hoteles?categoria=${encodeURIComponent(categoriaSeleccionada)}`,
+                {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                    },
+                }
+            );
             const contentType = response.headers.get('content-type') || '';
 
             if (!response.ok) {
@@ -94,7 +104,11 @@ export function Home() {
         setSearchError(null);
         setHoteles([]);
         try {
-            const response = await fetch(`/api/todos-hoteles`);
+            const response = await fetch(`/api/todos-hoteles`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                },
+            });
 
             if (!response.ok) {
                 const text = await response.text();

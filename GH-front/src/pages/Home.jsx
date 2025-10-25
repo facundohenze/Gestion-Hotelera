@@ -12,6 +12,7 @@ export function Home() {
     const [hoteles, setHoteles] = useState([]);
     const [botonActivo, setBotonActivo] = useState(null);
     const token = localStorage.getItem('token');
+    const [fuente, setFuente] = useState("mysql"); // indica qué base está activa
 
     useEffect(() => {
         fetch('/login-data', {
@@ -98,7 +99,8 @@ export function Home() {
         }
     };
 
-    const buscarTodosLosHoteles = async () => {
+    const buscarTodosLosHoteles = async (tipo) => {
+        setFuente(tipo);
         setBotonActivo('todos'); // <--- marcar "Todos" como activo
         setSearching(true);
         setSearchError(null);
@@ -128,6 +130,41 @@ export function Home() {
             setSearching(false);
         }
     };
+
+    const buscarHotelesMongo = async () => {
+        setFuente("mongo");
+        setBotonActivo("mongo");
+        setSearching(true);
+        setSearchError(null);
+        setHoteles([]);
+
+        try {
+            const response = await fetch(`/api/mongo/hoteles`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                },
+            });
+
+            if (!response.ok) {
+                const text = await response.text();
+                throw new Error(`HTTP ${response.status}: ${text}`);
+            }
+
+            const data = await response.json();
+
+            if (data && data.success) {
+                setHoteles(data.data || []);
+            } else {
+                setSearchError(data?.message || 'No se encontraron hoteles en MongoDB');
+            }
+        } catch (err) {
+            console.error('Error al buscar hoteles de Mongo:', err);
+            setSearchError(String(err.message || 'Error de conexión al buscar hoteles de Mongo'));
+        } finally {
+            setSearching(false);
+        }
+    };
+
 
     if (loading) {
         return (
@@ -173,6 +210,15 @@ export function Home() {
                         >
                             {searching ? 'Buscando...' : 'Todos'}
                         </button>
+                        <button
+                            type="button"
+                            onClick={buscarHotelesMongo}
+                            disabled={searching}
+                            className={botonActivo === 'mongo' ? 'active' : ''}
+                        >
+                            {searching ? 'Buscando...' : 'MongoDB'}
+                        </button>
+
                         {[1, 2, 3, 4, 5].map(n => (
                             <button
                                 key={n}

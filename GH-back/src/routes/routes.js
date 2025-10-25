@@ -5,6 +5,7 @@ import { fetchCliente } from "../controllers/controllers.js";
 import { fetchHotelPorCategoria } from "../controllers/controllers.js";
 import { fetchTodosHoteles } from "../controllers/controllers.js";
 import { fetchHabitacionesPorHotel } from "../controllers/controllers.js";
+import { fetchHotelesMongo } from "../controllers/mongoController.js";
 
 
 const router = Router();
@@ -27,6 +28,8 @@ router.get("/todos-hoteles", fetchTodosHoteles);
 // ruta para obtener habitaciones por idHotel
 router.get("/habitaciones/hotel/:idHotel", fetchHabitacionesPorHotel);
 
+// Ruta para traer hoteles desde MongoDB
+router.get("/mongo/hoteles", fetchHotelesMongo);
 
 export default router;
 

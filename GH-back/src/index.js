@@ -114,13 +114,16 @@ function verificarAutenticacion(req, res, next) {
 }
 
 
+
+
+
 app.use('/api/auth', authRoutes);
 // ============ RUTAS DE CLIENTES (PROTEGIDAS) ============
 app.use('/api', verificarAutenticacion, [
   clienteRoutes,
   hotelCategoriaRoutes,
   todosLosHotel,
-  habitacionPorHotel
+  habitacionPorHotel,
 ]);
 
 

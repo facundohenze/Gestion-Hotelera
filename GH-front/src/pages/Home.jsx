@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import "../estilos/home.css";
 import { CardHotel } from "../components/CardHotel";
-
+ 
 export function Home() {
     const [userData, setUserData] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -238,7 +238,7 @@ export function Home() {
 
             {hoteles.length > 0 ? (
                 <div className="result-box">
-                    <h2>Hoteles encontrados</h2>
+                    {/* <h2>Hoteles encontrados</h2> */}
                     <ul>
                         {hoteles.map((h, i) => (
                             <li key={h.id || i}>

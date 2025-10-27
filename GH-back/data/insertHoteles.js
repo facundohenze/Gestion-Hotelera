@@ -18,7 +18,7 @@ const hoteles = [
     telefono: "351-4567890",
     email: "info@welcome.com",
     categoria: 3,
-    imagenUrl: "https://res.cloudinary.com/tu_cuenta/image/upload/v1/hoteles/welcome.jpg"
+    imagenUrl: "https://res.cloudinary.com/duv3az4qy/image/upload/v1760715721/hotel_welcome_nz5lmu.jpg"
   },
   {
     nombre: "De la Cañada",
@@ -26,7 +26,7 @@ const hoteles = [
     telefono: "351-4789563",
     email: "contacto@delacaniada.com",
     categoria: 4,
-    imagenUrl: "https://res.cloudinary.com/tu_cuenta/image/upload/v1/hoteles/delacaniada.jpg"
+    imagenUrl: "https://res.cloudinary.com/duv3az4qy/image/upload/v1760714661/hotel_ca%C3%B1ada_uifyyk.webp"
   },
   {
     nombre: "Panorama",
@@ -34,7 +34,7 @@ const hoteles = [
     telefono: "351-4321987",
     email: "info@panorama.com",
     categoria: 5,
-    imagenUrl: "https://res.cloudinary.com/tu_cuenta/image/upload/v1/hoteles/panorama.jpg"
+    imagenUrl: "https://res.cloudinary.com/duv3az4qy/image/upload/v1760715927/hotel_nh_bew4k6.jpg"
   }
 ];
 

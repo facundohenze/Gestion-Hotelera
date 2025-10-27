@@ -123,7 +123,7 @@ app.use('/api', verificarAutenticacion, [
   clienteRoutes,
   hotelCategoriaRoutes,
   todosLosHotel,
-  habitacionPorHotel,
+  habitacionPorHotel
 ]);
 
 

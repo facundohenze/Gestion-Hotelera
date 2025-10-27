@@ -20,7 +20,7 @@ export function Habitaciones() {
         fechaEntrada: "",
         fechaSalida: "",
         cantidadHuesped: "",
-        estado: "pendiente",
+        estado: "",
         total: "",
     });
 
@@ -156,7 +156,7 @@ export function Habitaciones() {
             fechaEntrada: formData.fechaEntrada,
             fechaSalida: formData.fechaSalida,
             cantidadHuesped: Number(formData.cantidadHuesped),
-            estado: formData.estado || "pendiente",
+            estado: formData.estado,
             total: Number(formData.total),
         };
 
@@ -331,6 +331,7 @@ export function Habitaciones() {
                                         value={formData.idHabitacion}
                                         onChange={(e) => setFormData({ ...formData, idHabitacion: e.target.value })}
                                     />
+                                    <label for="fechaEntrada" style={{ margin: 0, padding: 0, fontSize: "14px" }}>Fecha de Entrada:</label>
                                     <input
                                         type="date"
                                         name="fechaEntrada"
@@ -338,6 +339,7 @@ export function Habitaciones() {
                                         value={formData.fechaEntrada}
                                         onChange={(e) => setFormData({ ...formData, fechaEntrada: e.target.value })}
                                     />
+                                    <label for="fechaSalida" style={{ margin: 0, padding: 0, fontSize: "14px" }}>Fecha de Salida:</label>
                                     <input
                                         type="date"
                                         name="fechaSalida"
@@ -353,16 +355,16 @@ export function Habitaciones() {
                                         value={formData.cantidadHuesped}
                                         onChange={(e) => setFormData({ ...formData, cantidadHuesped: e.target.value })}
                                     />
+                                    <label for="fechaEntrada" style={{ margin: 0, padding: 0, fontSize: "14px" }}>Estado Reserva:</label>
                                     <select
                                         name="estado"
                                         value={formData.estado}
                                         onChange={(e) => setFormData({ ...formData, estado: e.target.value })}
                                     >
-                                        <option value="">Selecciona un estado</option>
-                                        <option value="AG">confirmada</option>
-                                        <option value="BC">cancelada</option>
-                                        <option value="BS">pendiente</option>
-                                        
+                                        <option value="" disabled>Selecciona una opción</option>
+                                        <option value="confirmada">confirmada</option>
+                                        <option value="cancelada">cancelada</option>
+                                        <option value="pendiente">pendiente</option>
                                     </select>
                                     <input
                                         type="number"
@@ -373,7 +375,7 @@ export function Habitaciones() {
                                         value={formData.total}
                                         onChange={(e) => setFormData({ ...formData, total: e.target.value })}
                                     />
-                                    <button type="submit" className="btn-guardar">💾 Guardar Reserva</button>
+                                    <button type="submit" className="btn-guardar">Guardar Reserva</button>
                                 </form>
                             )}
 

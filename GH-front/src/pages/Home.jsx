@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import "../estilos/home.css";
 import { CardHotel } from "../components/CardHotel";
- 
+
 export function Home() {
     const [userData, setUserData] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -165,6 +165,14 @@ export function Home() {
         }
     };
 
+    const cerrarSesion = () => {
+        if (window.confirm("¿Seguro que desea cerrar sesión?")) {
+            localStorage.removeItem("token"); // Elimina el token guardado
+            window.location.href = "/"; // Redirige al login
+        }
+    };
+
+
 
     if (loading) {
         return (
@@ -187,6 +195,10 @@ export function Home() {
     return (
         <div className="home-container">
             <h1>Gestión Hotelera</h1>
+
+            <div className="header-bar">
+                <button className="btn-logout" onClick={cerrarSesion}>Cerrar sesión</button>
+            </div>
 
             {/* {userData && (
                 <div className="user-box">

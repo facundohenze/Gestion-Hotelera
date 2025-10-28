@@ -176,6 +176,21 @@ export function Habitaciones() {
 
             alert("✅ Reserva creada con éxito");
             buscarReservas(hotel.idHotel);
+
+            // 🔹 Refrescar lista
+            buscarReservas(hotel.idHotel);
+
+            // 🔹 Resetear el formulario
+            setFormData({
+                idCliente: "",
+                idHabitacion: "",
+                fechaEntrada: "",
+                fechaSalida: "",
+                cantidadHuesped: "",
+                estado: "pendiente",
+                total: "",
+            });
+
         } catch (error) {
             console.error("Error al crear reserva:", error);
             alert("⚠️ Error al crear reserva: " + error.message);
@@ -307,10 +322,25 @@ export function Habitaciones() {
                             </table>
                             <button
                                 className="btn-agregar"
-                                onClick={() => setMostrarForm(!mostrarForm)}
+                                onClick={() => {
+                                    // Limpiar el formulario siempre que se presione el botón
+                                    setFormData({
+                                        idCliente: "",
+                                        idHabitacion: "",
+                                        fechaEntrada: "",
+                                        fechaSalida: "",
+                                        cantidadHuesped: "",
+                                        estado: "pendiente",
+                                        total: "",
+                                    });
+
+                                    // Alternar visibilidad del formulario
+                                    setMostrarForm(!mostrarForm);
+                                }}
                             >
                                 {mostrarForm ? "Cancelar" : "➕ Agregar Reserva"}
                             </button>
+
 
                             {mostrarForm && (
                                 <form onSubmit={crearReserva} className="form-reserva">
@@ -375,7 +405,25 @@ export function Habitaciones() {
                                         value={formData.total}
                                         onChange={(e) => setFormData({ ...formData, total: e.target.value })}
                                     />
-                                    <button type="submit" className="btn-guardar">Guardar Reserva</button>
+                                    <button
+                                        type="submit"
+                                        className="btn-guardar"
+                                        onClick={() => {
+                                            setFormData({
+                                                idCliente: "",
+                                                idHabitacion: "",
+                                                fechaEntrada: "",
+                                                fechaSalida: "",
+                                                cantidadHuesped: "",
+                                                estado: "pendiente",
+                                                total: "",
+                                            });
+                                            setMostrarForm(false);
+                                        }}
+                                    >
+                                        Guardar Reserva
+                                    </button>
+
                                 </form>
                             )}
 

@@ -405,24 +405,8 @@ export function Habitaciones() {
                                         value={formData.total}
                                         onChange={(e) => setFormData({ ...formData, total: e.target.value })}
                                     />
-                                    <button
-                                        type="submit"
-                                        className="btn-guardar"
-                                        onClick={() => {
-                                            setFormData({
-                                                idCliente: "",
-                                                idHabitacion: "",
-                                                fechaEntrada: "",
-                                                fechaSalida: "",
-                                                cantidadHuesped: "",
-                                                estado: "pendiente",
-                                                total: "",
-                                            });
-                                            setMostrarForm(false);
-                                        }}
-                                    >
-                                        Guardar Reserva
-                                    </button>
+                                    <button type="submit" className="btn-guardar">💾 Guardar Reserva</button>
+                                    
 
                                 </form>
                             )}
